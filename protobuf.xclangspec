@@ -1,0 +1,178 @@
+// Protobuf
+(
+
+/****************************************************************************/
+// MARK: Protobuf keywords
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.protobuf.identifier";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Words = (
+				"default",
+				"enum",
+				"extend",
+				"extensions",
+				"message",
+				"option",
+				"optional",
+				"package",
+				"rpc",
+				"repeated",
+				"required",
+				"returns",
+				"service",
+				"bool",
+				"bytes",
+				"double",
+				"fixed32",
+				"fixed64",
+				"float",
+				"int32",
+				"int64",
+				"sfixed32",
+				"sfixed64",
+				"sint32",
+				"sint64",
+				"string",
+				"uint32",
+				"uint64",
+				"import",
+             );
+            Type = "xcode.syntax.keyword";
+            AltType = "xcode.syntax.identifier";    // non-keywords are identifiers
+        };
+    },
+
+
+/****************************************************************************/
+// MARK: Protobuf Syntax Coloring
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.protobuf";
+        Description = "Protobuf Coloring";
+        BasedOn = "xcode.lang.simpleColoring";
+        IncludeInMenu = YES;
+        Name = "Protobuf";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            IncludeRules = (
+                "xcode.lang.protobuf.message",
+                "xcode.lang.protobuf.enum",
+                "xcode.lang.protobuf.import",
+            );
+            Type = "xcode.syntax.plain";
+        };
+    },
+    
+    // The following rule returns tokens to the other rules
+    {
+        Identifier = "xcode.lang.protobuf.lexer";
+        Syntax = {
+            IncludeRules = (
+                "xcode.lang.comment",
+                "xcode.lang.comment.singleline",
+                "xcode.lang.string",
+                "xcode.lang.character",
+                "xcode.lang.protobuf.identifier",
+                "xcode.lang.number",
+            );
+        };
+    },
+    
+    {
+        Identifier = "xcode.lang.protobuf.message";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "xcode.lang.protobuf.message.declarator",
+                "xcode.lang.protobuf.block",
+            );
+            Type = "xcode.syntax.typedef";
+        };
+    },
+    
+     {
+        Identifier = "xcode.lang.protobuf.message.declarator";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "message",
+                "xcode.lang.protobuf.message.name",
+            );
+        };
+    },
+    
+    {
+        Identifier = "xcode.lang.protobuf.message.name";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "xcode.lang.protobuf.identifier",
+				"xcode.lang.protobuf.message.name.more*",
+            );
+            Type = "xcode.syntax.name.partial";
+        };
+    },
+    
+    {
+        Identifier = "xcode.lang.protobuf.message.name.more";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                ".",
+				"xcode.lang.protobuf.identifier",
+            );
+            Type = "xcode.syntax.name.partial";
+        };
+    },
+    
+    {
+        Identifier = "xcode.lang.protobuf.block";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Start = "{";
+            End = "}";
+            Foldable = YES;
+            Recursive = YES;
+            IncludeRules = (
+                "xcode.lang.protobuf.message",
+                "xcode.lang.protobuf.enum",
+            );
+        };
+    },
+    {
+        Identifier = "xcode.lang.protobuf.enum";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "xcode.lang.protobuf.enum.declarator",
+                "xcode.lang.protobuf.block",
+            );
+            Type = "xcode.syntax.typedef";
+        };
+    },
+    {
+        Identifier = "xcode.lang.protobuf.enum.declarator";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "enum",
+                "xcode.lang.protobuf.identifier",
+            );
+        };
+    },
+    {
+        Identifier = "xcode.lang.protobuf.import";
+        Syntax = {
+            Tokenizer = "xcode.lang.protobuf.lexer";
+            Rules = (
+                "import",
+                "xcode.lang.string",
+            );
+        };
+    },
+)
